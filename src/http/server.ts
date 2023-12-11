@@ -12,6 +12,7 @@ import { createOrder } from './routers/order/create-order'
 import { cancelOrder } from './routers/order/cancel-order'
 import { listAllOrders } from './routers/order/list-all-orders'
 import { editOrder } from './routers/order/edit-order'
+import { getUniqueOrder } from './routers/order/get-unique-order'
 
 export const app = new Elysia()
   .use(bearer())
@@ -26,6 +27,7 @@ export const app = new Elysia()
   .use(cancelOrder)
   .use(listAllOrders)
   .use(editOrder)
+  .use(getUniqueOrder)
 
 app.listen(env.PORT)
 

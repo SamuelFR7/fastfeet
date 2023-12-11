@@ -6,7 +6,7 @@ import Elysia, { t } from 'elysia'
 
 export const editOrder = new Elysia().use(authentication).patch(
   '/api/v1/order/:id',
-  async ({ getIsAdmin, params: { id }, body }) => {
+  async ({ getIsAdmin, params: { id }, body, set }) => {
     await getIsAdmin()
 
     const orderExistsQuery = await db
@@ -17,8 +17,8 @@ export const editOrder = new Elysia().use(authentication).patch(
     const orderExists = orderExistsQuery[0]
 
     if (!orderExists) {
+      set.status = 404
       return {
-        status: 404,
         body: {
           message: 'Order not found',
         },
