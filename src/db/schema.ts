@@ -7,7 +7,10 @@ export const user = pgTable("users", {
   id: varchar("id", { length: 255 })
     .primaryKey()
     .$defaultFn(() => createId()),
-  username: varchar("username", { length: 255 }).unique().notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
+  cpf: varchar("cpf", { length: 11 }).unique().notNull(),
   password: varchar("password", { length: 255 }).notNull(),
-  role: role("role").default("deliveryman"),
+  role: role("role").default("deliveryman").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at"),
 });
