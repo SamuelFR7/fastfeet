@@ -19,18 +19,18 @@ await db.insert(user).values([
     name: faker.person.fullName().toUpperCase(),
     role: 'deliveryman',
     cpf: faker.string.numeric('###########'),
-    password: faker.string.numeric('######'),
+    password: hashSync(faker.string.numeric('######'), 8),
   },
   {
     name: faker.person.fullName().toUpperCase(),
     role: 'deliveryman',
     cpf: faker.string.numeric('###########'),
-    password: faker.string.numeric('######'),
+    password: hashSync(faker.string.numeric('######'), 8),
   },
   {
     name: 'SAMUEL REZENDE',
     role: 'admin',
-    cpf: faker.string.numeric('###########'),
+    cpf: '12312312312',
     password: hashSync('123456', 8),
   },
 ])

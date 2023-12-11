@@ -34,7 +34,7 @@ export const authentication = new Elysia()
     })
   )
   .use(bearer())
-  .derive(({ jwt, cookie, bearer }) => {
+  .derive(({ jwt, bearer }) => {
     return {
       getCurrentUser: async () => {
         const payload = await jwt.verify(bearer)
