@@ -3,12 +3,13 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts",
+    "dev": "bun run --watch src/http/server.ts",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate:pg"
   },
   "dependencies": {
     "@elysiajs/bearer": "^0.7.0",
+    "@elysiajs/cookie": "^0.7.0",
     "@elysiajs/jwt": "^0.7.0",
     "@elysiajs/swagger": "^0.7.4",
     "@paralleldrive/cuid2": "^2.2.2",
