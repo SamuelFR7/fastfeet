@@ -5,7 +5,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/http/server.ts",
     "db:studio": "drizzle-kit studio",
-    "db:generate": "drizzle-kit generate:pg"
+    "db:generate": "drizzle-kit generate:pg",
+    "db:migrate": "bun run ./src/db/migrate.ts",
+    "db:seed": "bun run ./src/db/seed.ts"
   },
   "dependencies": {
     "@elysiajs/bearer": "^0.7.0",
@@ -19,8 +21,10 @@
     "postgres": "^3.4.3"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
     "@types/bcryptjs": "^2.4.6",
     "bun-types": "latest",
+    "chalk": "^5.3.0",
     "drizzle-kit": "^0.20.6",
     "pg": "^8.11.3"
   },

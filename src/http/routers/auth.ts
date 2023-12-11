@@ -1,6 +1,6 @@
 import Elysia, { t } from "elysia";
-import { user } from "@/db/schema";
-import { db } from "@/db";
+import { user } from "@/db/schema/user";
+import { db } from "@/db/connection";
 import { eq } from "drizzle-orm";
 import { compare } from "bcryptjs";
 import { authentication } from "../authentication";

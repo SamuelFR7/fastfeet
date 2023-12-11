@@ -1,5 +1,5 @@
 import { createId } from "@paralleldrive/cuid2";
-import { varchar, pgTable, pgEnum, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, varchar, timestamp, pgEnum } from "drizzle-orm/pg-core";
 
 export const role = pgEnum("role", ["admin", "deliveryman"]);
 
