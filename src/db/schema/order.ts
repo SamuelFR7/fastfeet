@@ -7,6 +7,7 @@ const status = pgEnum('status', [
   'available',
   'picked_up',
   'delivered',
+  'cancelled',
 ])
 
 export const orders = pgTable('orders', {
