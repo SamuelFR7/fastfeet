@@ -1,9 +1,9 @@
-import Elysia, { Static, t } from "elysia"
-import { UnauthorizedError } from "./routers/errors/unauthorized-error"
-import { NotAdminError } from "./routers/errors/not-a-admin-error"
-import jwt from "@elysiajs/jwt"
-import { env } from "@/env"
-import bearer from "@elysiajs/bearer"
+import Elysia, { Static, t } from 'elysia'
+import { UnauthorizedError } from './routers/errors/unauthorized-error'
+import { NotAdminError } from './routers/errors/not-a-admin-error'
+import jwt from '@elysiajs/jwt'
+import { env } from '@/env'
+import bearer from '@elysiajs/bearer'
 
 const jwtPayloadSchema = t.Object({
   sub: t.String(),
@@ -17,20 +17,20 @@ export const authentication = new Elysia()
   })
   .onError(({ code, error, set }) => {
     switch (code) {
-      case "UNAUTHORIZED":
+      case 'UNAUTHORIZED':
         set.status = 401
         return { code, message: error.message }
-      case "NOT_A_ADMIN":
+      case 'NOT_A_ADMIN':
         set.status = 401
         return { code, message: error.message }
     }
   })
   .use(
     jwt({
-      name: "jwt",
+      name: 'jwt',
       secret: env.JWT_SECRET,
       schema: jwtPayloadSchema,
-      exp: "1d",
+      exp: '1d',
     })
   )
   .use(bearer())

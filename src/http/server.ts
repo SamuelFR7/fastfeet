@@ -1,9 +1,9 @@
-import { Elysia, t } from "elysia"
-import { swagger } from "@elysiajs/swagger"
-import { bearer } from "@elysiajs/bearer"
-import { deliveryRouter } from "./routers/delivery-man"
-import { authRouter } from "./routers/auth"
-import { env } from "@/env"
+import { Elysia, t } from 'elysia'
+import { swagger } from '@elysiajs/swagger'
+import { bearer } from '@elysiajs/bearer'
+import { deliveryRouter } from './routers/delivery-man'
+import { authRouter } from './routers/auth'
+import { env } from '@/env'
 
 export const app = new Elysia()
   .use(bearer())

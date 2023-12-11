@@ -1,15 +1,15 @@
-import Elysia, { t } from "elysia"
-import { db } from "@/db/connection"
-import { user } from "@/db/schema/user"
-import { and, eq } from "drizzle-orm"
-import { hash } from "bcryptjs"
-import bearer from "@elysiajs/bearer"
-import { authentication } from "../authentication"
+import Elysia, { t } from 'elysia'
+import { db } from '@/db/connection'
+import { user } from '@/db/schema/user'
+import { and, eq } from 'drizzle-orm'
+import { hash } from 'bcryptjs'
+import bearer from '@elysiajs/bearer'
+import { authentication } from '../authentication'
 
 export const deliveryRouter = new Elysia().use(authentication).use(bearer())
 
 deliveryRouter.post(
-  "api/v1/deliveryman/",
+  'api/v1/deliveryman/',
   async ({ getIsAdmin, body, set }) => {
     await getIsAdmin()
 
@@ -23,7 +23,7 @@ deliveryRouter.post(
 
       return {
         body: {
-          message: "User already exists",
+          message: 'User already exists',
         },
       }
     }
@@ -34,13 +34,13 @@ deliveryRouter.post(
       cpf: body.cpf,
       name: body.name,
       password: hashedPassword,
-      role: "deliveryman",
+      role: 'deliveryman',
     })
 
     return {
       status: 201,
       body: {
-        message: "User created successfully",
+        message: 'User created successfully',
       },
     }
   },
@@ -57,7 +57,7 @@ deliveryRouter.post(
 )
 
 deliveryRouter.get(
-  "/api/v1/deliveryman/:id",
+  '/api/v1/deliveryman/:id',
   async ({ getIsAdmin, set, params: { id } }) => {
     await getIsAdmin()
 
@@ -70,7 +70,7 @@ deliveryRouter.get(
         updatedAt: user.updatedAt,
       })
       .from(user)
-      .where(and(eq(user.id, id), eq(user.role, "deliveryman")))
+      .where(and(eq(user.id, id), eq(user.role, 'deliveryman')))
 
     const deliveryman = deliverymanQuery[0]
 
@@ -79,20 +79,20 @@ deliveryRouter.get(
 
       return {
         body: {
-          message: "Deliveryman not found",
+          message: 'Deliveryman not found',
         },
       }
     }
 
     return new Response(JSON.stringify(deliveryman), {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
   }
 )
 
-deliveryRouter.get("/api/v1/deliveryman", async ({ getIsAdmin }) => {
+deliveryRouter.get('/api/v1/deliveryman', async ({ getIsAdmin }) => {
   await getIsAdmin()
 
   const deliverymenQuery = await db
@@ -104,18 +104,18 @@ deliveryRouter.get("/api/v1/deliveryman", async ({ getIsAdmin }) => {
       updatedAt: user.updatedAt,
     })
     .from(user)
-    .where(eq(user.role, "deliveryman"))
+    .where(eq(user.role, 'deliveryman'))
 
   const deliverymen = deliverymenQuery
 
   return new Response(JSON.stringify(deliverymen), {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   })
 })
 deliveryRouter.patch(
-  "/api/v1/deliveryman/:id",
+  '/api/v1/deliveryman/:id',
   async ({ getIsAdmin, set, params: { id }, body }) => {
     await getIsAdmin()
 
@@ -128,7 +128,7 @@ deliveryRouter.patch(
         updatedAt: user.updatedAt,
       })
       .from(user)
-      .where(and(eq(user.id, id), eq(user.role, "deliveryman")))
+      .where(and(eq(user.id, id), eq(user.role, 'deliveryman')))
 
     const deliveryman = deliverymanQuery[0]
 
@@ -137,7 +137,7 @@ deliveryRouter.patch(
 
       return {
         body: {
-          message: "Deliveryman not found",
+          message: 'Deliveryman not found',
         },
       }
     }
@@ -154,7 +154,7 @@ deliveryRouter.patch(
     return {
       status: 200,
       body: {
-        message: "Deliveryman updated successfully",
+        message: 'Deliveryman updated successfully',
       },
     }
   },
@@ -166,7 +166,7 @@ deliveryRouter.patch(
   }
 )
 deliveryRouter.delete(
-  "/api/v1/deliveryman/:id",
+  '/api/v1/deliveryman/:id',
   async ({ getIsAdmin, set, params: { id } }) => {
     await getIsAdmin()
 
@@ -179,7 +179,7 @@ deliveryRouter.delete(
         updatedAt: user.updatedAt,
       })
       .from(user)
-      .where(and(eq(user.id, id), eq(user.role, "deliveryman")))
+      .where(and(eq(user.id, id), eq(user.role, 'deliveryman')))
 
     const deliveryman = deliverymanQuery[0]
 
@@ -188,7 +188,7 @@ deliveryRouter.delete(
 
       return {
         body: {
-          message: "Deliveryman not found",
+          message: 'Deliveryman not found',
         },
       }
     }
@@ -198,7 +198,7 @@ deliveryRouter.delete(
     return {
       status: 200,
       body: {
-        message: "Deliveryman deleted successfully",
+        message: 'Deliveryman deleted successfully',
       },
     }
   }
