@@ -1,6 +1,7 @@
 import { createId } from '@paralleldrive/cuid2'
 import { pgEnum, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core'
 import { user } from './user'
+import { recipients } from './recipient'
 
 export const status = pgEnum('status', [
   'pending',
@@ -19,6 +20,9 @@ export const orders = pgTable('orders', {
   deliveryManId: varchar('delivery_man_id', { length: 255 }).references(
     () => user.id
   ),
+  recipientId: varchar('recipient_id', { length: 255 })
+    .references(() => recipients.id)
+    .notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
 })

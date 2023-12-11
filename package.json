@@ -6,7 +6,7 @@
     "dev": "bun run --watch src/http/server.ts",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate:pg",
-    "db:migrate": "bun run ./src/db/migrate.ts",
+    "db:migrate": "drizzle-kit generate:pg && bun run ./src/db/migrate.ts",
     "db:seed": "bun run ./src/db/seed.ts",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "format:write": "prettier --write \"src/**/*.ts\"",

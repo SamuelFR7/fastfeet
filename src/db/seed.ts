@@ -1,4 +1,10 @@
-import { user } from './schema'
+import {
+  AdressInsert,
+  RecipientInsert,
+  adresses,
+  recipients,
+  user,
+} from './schema'
 import { faker } from '@faker-js/faker'
 import { db } from './connection'
 import chalk from 'chalk'
@@ -8,10 +14,63 @@ import { InsertOrder, orders } from './schema/order'
 /**
  * Reset database
  */
+await db.delete(recipients)
 await db.delete(orders)
+await db.delete(adresses)
 await db.delete(user)
 
 console.log(chalk.yellow('✔ Database reset'))
+
+/**
+ * Create adresses
+ */
+function generateAdresses() {
+  const adresses: AdressInsert[] = []
+
+  for (let i = 0; i < 100; i++) {
+    adresses.push({
+      city: faker.location.city().toUpperCase(),
+      state: faker.location.state().toUpperCase(),
+      street: faker.location.street().toUpperCase(),
+      number: faker.location.buildingNumber(),
+      zipCode: faker.location.zipCode(),
+    })
+  }
+
+  return adresses
+}
+const adressesToInsert = generateAdresses()
+const adressesInserted = await db
+  .insert(adresses)
+  .values(adressesToInsert)
+  .returning()
+
+console.log(chalk.yellow('✔ Created adresses'))
+
+/**
+ * Create recipients
+ */
+function generateRecipients() {
+  const recipients: RecipientInsert[] = []
+
+  for (let i = 0; i < 100; i++) {
+    recipients.push({
+      name: faker.person.fullName().toUpperCase(),
+      cpf: faker.string.numeric('###########'),
+      phone: faker.string.numeric('###########'),
+      adressId: faker.helpers.arrayElement(adressesInserted).id,
+    })
+  }
+
+  return recipients
+}
+const recipientsToInsert = generateRecipients()
+const recipientsInserted = await db
+  .insert(recipients)
+  .values(recipientsToInsert)
+  .returning()
+
+console.log(chalk.yellow('✔ Created recipients'))
 
 /**
  * Create deliverymen and a admin
@@ -42,6 +101,9 @@ const [deliveryMan1, deliveryMan2] = await db
 
 console.log(chalk.yellow('✔ Created delivery men'))
 
+/**
+ * Create orders
+ */
 function generateOrders() {
   const orders: InsertOrder[] = []
 
@@ -60,15 +122,13 @@ function generateOrders() {
         'delivered',
         'cancelled',
       ]),
+      recipientId: faker.helpers.arrayElement(recipientsInserted).id,
     })
   }
 
   return orders
 }
 
-/**
- * Create orders
- */
 const ordersToInsert = generateOrders()
 await db.insert(orders).values(ordersToInsert)
 

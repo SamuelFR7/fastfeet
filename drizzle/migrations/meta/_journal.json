@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1702299066137,
-      "tag": "0000_abandoned_gateway",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1702319396737,
-      "tag": "0001_dashing_mandrill",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1702319552613,
-      "tag": "0002_sour_madrox",
+      "when": 1702322923228,
+      "tag": "0000_many_colossus",
       "breakpoints": true
     }
   ]
