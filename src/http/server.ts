@@ -3,11 +3,12 @@ import { swagger } from '@elysiajs/swagger'
 import { bearer } from '@elysiajs/bearer'
 import { authRouter } from './routers/auth'
 import { env } from '@/env'
-import { createDeliveryMan } from './routers/delivery/create-delivery-man'
-import { deleteDeliveryMan } from './routers/delivery/delete-delivery-man'
-import { getUniqueDeliveryMan } from './routers/delivery/get-unique-delivery-man'
-import { listDeliveryMan } from './routers/delivery/list-delivery-men'
-import { updateDeliveryMan } from './routers/delivery/update-delivery-man'
+import { createDeliveryMan } from './routers/delivery-man/create-delivery-man'
+import { deleteDeliveryMan } from './routers/delivery-man/delete-delivery-man'
+import { getUniqueDeliveryMan } from './routers/delivery-man/get-unique-delivery-man'
+import { listDeliveryMan } from './routers/delivery-man/list-delivery-men'
+import { updateDeliveryMan } from './routers/delivery-man/update-delivery-man'
+import { createOrder } from './routers/order/create-order'
 
 export const app = new Elysia()
   .use(bearer())
@@ -18,6 +19,7 @@ export const app = new Elysia()
   .use(getUniqueDeliveryMan)
   .use(listDeliveryMan)
   .use(updateDeliveryMan)
+  .use(createOrder)
 
 app.listen(env.PORT)
 
