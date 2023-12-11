@@ -11,12 +11,3 @@ export const user = pgTable("users", {
   password: varchar("password", { length: 255 }).notNull(),
   role: role("role").default("deliveryman"),
 });
-
-export const session = pgTable("sessions", {
-  id: varchar("id", { length: 255 })
-    .primaryKey()
-    .$defaultFn(() => createId()),
-  userId: varchar("user_id", { length: 255 }).references(() => user.id),
-  createdAt: timestamp("created_at").defaultNow(),
-  expireAt: timestamp("expire_at"),
-});

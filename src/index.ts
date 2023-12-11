@@ -1,15 +1,18 @@
 import { Elysia, t } from "elysia";
 import { db } from "./db";
-import { session, user } from "./db/schema";
+import { user } from "./db/schema";
 import { eq } from "drizzle-orm";
 import { compare } from "bcryptjs";
-import dayjs from "dayjs";
+import { swagger } from "@elysiajs/swagger";
+import { jwt } from "@elysiajs/jwt";
 
-const app = new Elysia();
+const app = new Elysia()
+  .use(jwt({ name: "jwt", secret: process.env.JWT_SECRET!, exp: "7d" }))
+  .use(swagger());
 
 app.post(
   "/auth/session",
-  async ({ body }) => {
+  async ({ body, jwt }) => {
     const userExistsQuery = await db
       .select()
       .from(user)
@@ -37,26 +40,24 @@ app.post(
       };
     }
 
-    const todayPlusOne = dayjs().add(1, "day").toDate();
-
-    const newSessions = await db
-      .insert(session)
-      .values({
-        userId: userExists.id,
-        expireAt: todayPlusOne,
-      })
-      .returning({
-        id: session.id,
-      });
-
-    const sessionCreated = newSessions[0];
-
-    return new Response(JSON.stringify(sessionCreated), {
-      status: 201,
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const token = await jwt.sign({
+      sub: userExists.id,
     });
+
+    return new Response(
+      JSON.stringify({
+        token,
+        user: {
+          role: userExists.role,
+        },
+      }),
+      {
+        status: 201,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   },
   {
     body: t.Object({
