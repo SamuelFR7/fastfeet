@@ -6,7 +6,7 @@ import Elysia from 'elysia'
 
 export const listDeliveryMan = new Elysia()
   .use(authentication)
-  .get('/api/v1/deliveryman', async ({ getIsAdmin }) => {
+  .get('/', async ({ getIsAdmin }) => {
     await getIsAdmin()
 
     const deliverymenQuery = await db

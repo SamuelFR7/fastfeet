@@ -3,33 +3,14 @@ import { swagger } from '@elysiajs/swagger'
 import { bearer } from '@elysiajs/bearer'
 import { authRouter } from './routers/auth'
 import { env } from '@/env'
-import { createDeliveryMan } from './routers/delivery-man/create-delivery-man'
-import { deleteDeliveryMan } from './routers/delivery-man/delete-delivery-man'
-import { getUniqueDeliveryMan } from './routers/delivery-man/get-unique-delivery-man'
-import { listDeliveryMan } from './routers/delivery-man/list-delivery-men'
-import { updateDeliveryMan } from './routers/delivery-man/update-delivery-man'
-import { createOrder } from './routers/order/create-order'
-import { cancelOrder } from './routers/order/cancel-order'
-import { listAllOrders } from './routers/order/list-all-orders'
-import { editOrder } from './routers/order/edit-order'
-import { getUniqueOrder } from './routers/order/get-unique-order'
-import { listMyOrders } from './routers/delivery-man/list-my-orders'
+import { deliveryManRouter } from './routers/delivery-man/router'
+import { ordersRouter } from './routers/order/router'
 
-export const app = new Elysia()
-  .use(bearer())
-  .use(swagger())
-  .use(authRouter)
-  .use(createDeliveryMan)
-  .use(deleteDeliveryMan)
-  .use(getUniqueDeliveryMan)
-  .use(listDeliveryMan)
-  .use(updateDeliveryMan)
-  .use(createOrder)
-  .use(cancelOrder)
-  .use(listAllOrders)
-  .use(editOrder)
-  .use(getUniqueOrder)
-  .use(listMyOrders)
+export const app = new Elysia().use(bearer()).use(swagger())
+
+app.group('/api/v1', (app) =>
+  app.use(authRouter).use(deliveryManRouter).use(ordersRouter)
+)
 
 app.listen(env.PORT)
 

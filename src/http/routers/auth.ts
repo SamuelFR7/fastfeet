@@ -8,7 +8,7 @@ import { authentication } from '../authentication'
 export const authRouter = new Elysia().use(authentication)
 
 authRouter.post(
-  'api/v1/auth/session',
+  '/auth/session',
   async ({ body, signInUser }) => {
     const userExistsQuery = await db
       .select()

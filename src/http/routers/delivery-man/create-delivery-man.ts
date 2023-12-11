@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm'
 import Elysia, { t } from 'elysia'
 
 export const createDeliveryMan = new Elysia().use(authentication).post(
-  'api/v1/deliveryman/',
+  '/',
   async ({ getIsAdmin, body, set }) => {
     await getIsAdmin()
 

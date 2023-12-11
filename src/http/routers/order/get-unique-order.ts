@@ -6,7 +6,7 @@ import Elysia from 'elysia'
 
 export const getUniqueOrder = new Elysia()
   .use(authentication)
-  .get('/api/v1/order/:id', async ({ getCurrentUser, params: { id }, set }) => {
+  .get('/:id', async ({ getCurrentUser, params: { id }, set }) => {
     const { admin, sub } = await getCurrentUser()
 
     const orderQuery = await db.select().from(orders).where(eq(orders.id, id))

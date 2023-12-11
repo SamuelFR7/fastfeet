@@ -5,7 +5,7 @@ import { asc, count, desc, eq } from 'drizzle-orm'
 import Elysia, { t } from 'elysia'
 
 export const listMyOrders = new Elysia().use(authentication).get(
-  '/api/v1/deliveryman/orders',
+  '/orders',
   async ({ getCurrentUser, query }) => {
     const { sub } = await getCurrentUser()
 

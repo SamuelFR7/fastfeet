@@ -5,7 +5,7 @@ import { asc, count, desc, ne } from 'drizzle-orm'
 import Elysia, { t } from 'elysia'
 
 export const listAllOrders = new Elysia().use(authentication).get(
-  '/api/v1/order',
+  '/',
   async ({ getIsAdmin, query }) => {
     await getIsAdmin()
 

@@ -4,7 +4,7 @@ import { authentication } from '@/http/authentication'
 import Elysia, { t } from 'elysia'
 
 export const createOrder = new Elysia().use(authentication).post(
-  '/api/v1/order',
+  '/',
   async ({ getIsAdmin, body }) => {
     await getIsAdmin()
 
@@ -12,6 +12,7 @@ export const createOrder = new Elysia().use(authentication).post(
       .insert(orders)
       .values({
         itemName: body.itemName,
+        recipientId: body.recipientId,
       })
       .returning()
 
@@ -25,6 +26,7 @@ export const createOrder = new Elysia().use(authentication).post(
   {
     body: t.Object({
       itemName: t.String(),
+      recipientId: t.String(),
     }),
   }
 )

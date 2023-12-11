@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm'
 import Elysia, { t } from 'elysia'
 
 export const editOrder = new Elysia().use(authentication).patch(
-  '/api/v1/order/:id',
+  '/:id',
   async ({ getIsAdmin, params: { id }, body, set }) => {
     await getIsAdmin()
 
