@@ -1,14 +1,14 @@
-import Elysia, { Static, t } from "elysia";
-import { UnauthorizedError } from "./routers/errors/unauthorized-error";
-import { NotAdminError } from "./routers/errors/not-a-admin-error";
-import jwt from "@elysiajs/jwt";
-import { env } from "@/env";
-import bearer from "@elysiajs/bearer";
+import Elysia, { Static, t } from "elysia"
+import { UnauthorizedError } from "./routers/errors/unauthorized-error"
+import { NotAdminError } from "./routers/errors/not-a-admin-error"
+import jwt from "@elysiajs/jwt"
+import { env } from "@/env"
+import bearer from "@elysiajs/bearer"
 
 const jwtPayloadSchema = t.Object({
   sub: t.String(),
   admin: t.Boolean(),
-});
+})
 
 export const authentication = new Elysia()
   .error({
@@ -18,11 +18,11 @@ export const authentication = new Elysia()
   .onError(({ code, error, set }) => {
     switch (code) {
       case "UNAUTHORIZED":
-        set.status = 401;
-        return { code, message: error.message };
+        set.status = 401
+        return { code, message: error.message }
       case "NOT_A_ADMIN":
-        set.status = 401;
-        return { code, message: error.message };
+        set.status = 401
+        return { code, message: error.message }
     }
   })
   .use(
@@ -37,31 +37,31 @@ export const authentication = new Elysia()
   .derive(({ jwt, cookie, bearer }) => {
     return {
       getCurrentUser: async () => {
-        const payload = await jwt.verify(bearer);
+        const payload = await jwt.verify(bearer)
 
         if (!payload) {
-          throw new UnauthorizedError();
+          throw new UnauthorizedError()
         }
 
-        return payload;
+        return payload
       },
       signInUser: async (payload: Static<typeof jwtPayloadSchema>) => {
-        const token = await jwt.sign(payload);
+        const token = await jwt.sign(payload)
 
-        return token;
+        return token
       },
-    };
+    }
   })
   .derive(({ getCurrentUser }) => {
     return {
       getIsAdmin: async () => {
-        const { admin } = await getCurrentUser();
+        const { admin } = await getCurrentUser()
 
         if (!admin) {
-          throw new NotAdminError();
+          throw new NotAdminError()
         }
 
-        return true;
+        return true
       },
-    };
-  });
+    }
+  })

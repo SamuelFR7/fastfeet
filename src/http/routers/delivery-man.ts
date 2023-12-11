@@ -1,48 +1,48 @@
-import Elysia, { t } from "elysia";
-import { db } from "@/db/connection";
-import { user } from "@/db/schema/user";
-import { and, eq } from "drizzle-orm";
-import { hash } from "bcryptjs";
-import bearer from "@elysiajs/bearer";
-import { authentication } from "../authentication";
+import Elysia, { t } from "elysia"
+import { db } from "@/db/connection"
+import { user } from "@/db/schema/user"
+import { and, eq } from "drizzle-orm"
+import { hash } from "bcryptjs"
+import bearer from "@elysiajs/bearer"
+import { authentication } from "../authentication"
 
-export const deliveryRouter = new Elysia().use(authentication).use(bearer());
+export const deliveryRouter = new Elysia().use(authentication).use(bearer())
 
 deliveryRouter.post(
   "api/v1/deliveryman/",
   async ({ getIsAdmin, body, set }) => {
-    await getIsAdmin();
+    await getIsAdmin()
 
     const userAlreadyExists = await db
       .select()
       .from(user)
-      .where(eq(user.cpf, body.cpf));
+      .where(eq(user.cpf, body.cpf))
 
     if (userAlreadyExists[0]) {
-      set.status = 409;
+      set.status = 409
 
       return {
         body: {
           message: "User already exists",
         },
-      };
+      }
     }
 
-    const hashedPassword = await hash(body.password, 8);
+    const hashedPassword = await hash(body.password, 8)
 
     await db.insert(user).values({
       cpf: body.cpf,
       name: body.name,
       password: hashedPassword,
       role: "deliveryman",
-    });
+    })
 
     return {
       status: 201,
       body: {
         message: "User created successfully",
       },
-    };
+    }
   },
   {
     body: t.Object({
@@ -54,12 +54,12 @@ deliveryRouter.post(
       authorization: t.String(),
     }),
   }
-);
+)
 
 deliveryRouter.get(
   "/api/v1/deliveryman/:id",
   async ({ getIsAdmin, set, params: { id } }) => {
-    await getIsAdmin();
+    await getIsAdmin()
 
     const deliverymanQuery = await db
       .select({
@@ -70,30 +70,30 @@ deliveryRouter.get(
         updatedAt: user.updatedAt,
       })
       .from(user)
-      .where(and(eq(user.id, id), eq(user.role, "deliveryman")));
+      .where(and(eq(user.id, id), eq(user.role, "deliveryman")))
 
-    const deliveryman = deliverymanQuery[0];
+    const deliveryman = deliverymanQuery[0]
 
     if (!deliveryman) {
-      set.status = 404;
+      set.status = 404
 
       return {
         body: {
           message: "Deliveryman not found",
         },
-      };
+      }
     }
 
     return new Response(JSON.stringify(deliveryman), {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
   }
-);
+)
 
 deliveryRouter.get("/api/v1/deliveryman", async ({ getIsAdmin }) => {
-  await getIsAdmin();
+  await getIsAdmin()
 
   const deliverymenQuery = await db
     .select({
@@ -104,20 +104,20 @@ deliveryRouter.get("/api/v1/deliveryman", async ({ getIsAdmin }) => {
       updatedAt: user.updatedAt,
     })
     .from(user)
-    .where(eq(user.role, "deliveryman"));
+    .where(eq(user.role, "deliveryman"))
 
-  const deliverymen = deliverymenQuery;
+  const deliverymen = deliverymenQuery
 
   return new Response(JSON.stringify(deliverymen), {
     headers: {
       "Content-Type": "application/json",
     },
-  });
-});
+  })
+})
 deliveryRouter.patch(
   "/api/v1/deliveryman/:id",
   async ({ getIsAdmin, set, params: { id }, body }) => {
-    await getIsAdmin();
+    await getIsAdmin()
 
     const deliverymanQuery = await db
       .select({
@@ -128,18 +128,18 @@ deliveryRouter.patch(
         updatedAt: user.updatedAt,
       })
       .from(user)
-      .where(and(eq(user.id, id), eq(user.role, "deliveryman")));
+      .where(and(eq(user.id, id), eq(user.role, "deliveryman")))
 
-    const deliveryman = deliverymanQuery[0];
+    const deliveryman = deliverymanQuery[0]
 
     if (!deliveryman) {
-      set.status = 404;
+      set.status = 404
 
       return {
         body: {
           message: "Deliveryman not found",
         },
-      };
+      }
     }
 
     await db
@@ -149,14 +149,14 @@ deliveryRouter.patch(
         cpf: body.cpf,
         updatedAt: new Date(),
       })
-      .where(eq(user.id, id));
+      .where(eq(user.id, id))
 
     return {
       status: 200,
       body: {
         message: "Deliveryman updated successfully",
       },
-    };
+    }
   },
   {
     body: t.Object({
@@ -164,11 +164,11 @@ deliveryRouter.patch(
       cpf: t.String(),
     }),
   }
-);
+)
 deliveryRouter.delete(
   "/api/v1/deliveryman/:id",
   async ({ getIsAdmin, set, params: { id } }) => {
-    await getIsAdmin();
+    await getIsAdmin()
 
     const deliverymanQuery = await db
       .select({
@@ -179,27 +179,27 @@ deliveryRouter.delete(
         updatedAt: user.updatedAt,
       })
       .from(user)
-      .where(and(eq(user.id, id), eq(user.role, "deliveryman")));
+      .where(and(eq(user.id, id), eq(user.role, "deliveryman")))
 
-    const deliveryman = deliverymanQuery[0];
+    const deliveryman = deliverymanQuery[0]
 
     if (!deliveryman) {
-      set.status = 404;
+      set.status = 404
 
       return {
         body: {
           message: "Deliveryman not found",
         },
-      };
+      }
     }
 
-    await db.delete(user).where(eq(user.id, id));
+    await db.delete(user).where(eq(user.id, id))
 
     return {
       status: 200,
       body: {
         message: "Deliveryman deleted successfully",
       },
-    };
+    }
   }
-);
+)

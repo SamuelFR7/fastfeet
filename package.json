@@ -7,7 +7,9 @@
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate:pg",
     "db:migrate": "bun run ./src/db/migrate.ts",
-    "db:seed": "bun run ./src/db/seed.ts"
+    "db:seed": "bun run ./src/db/seed.ts",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "format:write": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
     "@elysiajs/bearer": "^0.7.0",
@@ -26,7 +28,9 @@
     "bun-types": "latest",
     "chalk": "^5.3.0",
     "drizzle-kit": "^0.20.6",
-    "pg": "^8.11.3"
+    "eslint": "^8.55.0",
+    "pg": "^8.11.3",
+    "prettier": "^3.1.1"
   },
   "module": "src/index.js"
 }

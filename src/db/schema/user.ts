@@ -1,7 +1,7 @@
-import { createId } from "@paralleldrive/cuid2";
-import { pgTable, varchar, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { createId } from "@paralleldrive/cuid2"
+import { pgTable, varchar, timestamp, pgEnum } from "drizzle-orm/pg-core"
 
-export const role = pgEnum("role", ["admin", "deliveryman"]);
+export const role = pgEnum("role", ["admin", "deliveryman"])
 
 export const user = pgTable("users", {
   id: varchar("id", { length: 255 })
@@ -13,4 +13,4 @@ export const user = pgTable("users", {
   role: role("role").default("deliveryman").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at"),
-});
+})
