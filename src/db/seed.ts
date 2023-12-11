@@ -8,8 +8,8 @@ import { InsertOrder, orders } from './schema/order'
 /**
  * Reset database
  */
-await db.delete(user)
 await db.delete(orders)
+await db.delete(user)
 
 console.log(chalk.yellow('✔ Database reset'))
 
@@ -23,13 +23,13 @@ const [deliveryMan1, deliveryMan2] = await db
       name: faker.person.fullName().toUpperCase(),
       role: 'deliveryman',
       cpf: faker.string.numeric('###########'),
-      password: hashSync(faker.string.numeric('######'), 8),
+      password: hashSync('123456', 8),
     },
     {
       name: faker.person.fullName().toUpperCase(),
       role: 'deliveryman',
       cpf: faker.string.numeric('###########'),
-      password: hashSync(faker.string.numeric('######'), 8),
+      password: hashSync('123456', 8),
     },
     {
       name: 'SAMUEL REZENDE',
@@ -47,7 +47,7 @@ function generateOrders() {
 
   for (let i = 0; i < 200; i++) {
     orders.push({
-      itemName: faker.commerce.productName(),
+      itemName: faker.commerce.productName().toUpperCase(),
       createdAt: faker.date.past(),
       deliveryManId: faker.helpers.arrayElement([
         deliveryMan1.id,
