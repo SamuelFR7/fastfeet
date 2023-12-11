@@ -2,7 +2,7 @@ import { createId } from '@paralleldrive/cuid2'
 import { pgEnum, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core'
 import { user } from './user'
 
-const status = pgEnum('status', [
+export const status = pgEnum('status', [
   'pending',
   'available',
   'picked_up',
@@ -22,3 +22,6 @@ export const orders = pgTable('orders', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
 })
+
+export type Order = typeof orders.$inferSelect
+export type InsertOrder = typeof orders.$inferInsert

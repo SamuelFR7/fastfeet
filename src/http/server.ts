@@ -10,6 +10,7 @@ import { listDeliveryMan } from './routers/delivery-man/list-delivery-men'
 import { updateDeliveryMan } from './routers/delivery-man/update-delivery-man'
 import { createOrder } from './routers/order/create-order'
 import { cancelOrder } from './routers/order/cancel-order'
+import { listAllOrders } from './routers/order/list-all-orders'
 
 export const app = new Elysia()
   .use(bearer())
@@ -22,6 +23,7 @@ export const app = new Elysia()
   .use(updateDeliveryMan)
   .use(createOrder)
   .use(cancelOrder)
+  .use(listAllOrders)
 
 app.listen(env.PORT)
 
