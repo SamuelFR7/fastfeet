@@ -1,0 +1,34 @@
+name: Code check
+
+on:
+  pull_request:
+    branches: ['*']
+
+env:
+  DATABASE_URL: 'fake://fake@fake:5432/fake'
+  JWT_SECRET: 'fake'
+  UPLOADTHING_SECRET: 'fake-secret'
+  UPLOADTHING_APP_ID: 'fake'
+  RESEND_API_KEY: fake'
+  MAIL_FROM: fake@fake.fake'
+
+jobs:
+  typecheck-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install deps
+        run: bun install
+
+      - name: Run lint
+        run: bun run lint
+
+      - name: Run typecheck
+        run: bun run typecheck
