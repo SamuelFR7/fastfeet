@@ -4,17 +4,15 @@ import { authentication } from '@/http/authentication'
 import { eq } from 'drizzle-orm'
 import Elysia from 'elysia'
 
-export const takeOrder = new Elysia().use(authentication).put(
-  '/:id/take',
+export const pickUpOrder = new Elysia().use(authentication).put(
+  '/:id/pickup',
   async ({ set, getCurrentUser, params: { id } }) => {
     const currentUser = await getCurrentUser()
 
     if (currentUser.admin) {
       set.status = 401
       return {
-        body: {
-          message: 'Unauthorized',
-        },
+        message: 'Unauthorized',
       }
     }
 
@@ -37,9 +35,7 @@ export const takeOrder = new Elysia().use(authentication).put(
     if (orderExists.status !== 'available') {
       set.status = 400
       return {
-        body: {
-          message: 'Order cannot be taken',
-        },
+        message: 'Order cannot be picked up',
       }
     }
 
@@ -50,7 +46,7 @@ export const takeOrder = new Elysia().use(authentication).put(
 
     return new Response(
       JSON.stringify({
-        message: 'Order taken',
+        message: 'Order picked up',
       }),
       {
         status: 200,

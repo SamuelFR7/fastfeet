@@ -23,6 +23,7 @@ export const orders = pgTable('orders', {
   recipientId: varchar('recipient_id', { length: 255 })
     .references(() => recipients.id)
     .notNull(),
+  deliveredImageKey: varchar('delivered_image_key', { length: 255 }),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
 })
