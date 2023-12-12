@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1702322923228,
-      "tag": "0000_many_colossus",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1702380029464,
-      "tag": "0001_shocking_terrax",
+      "when": 1702384516603,
+      "tag": "0000_magenta_hellion",
       "breakpoints": true
     }
   ]

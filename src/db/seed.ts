@@ -1,7 +1,7 @@
 import {
-  AdressInsert,
+  AddressInsert,
   RecipientInsert,
-  adresses,
+  addresses,
   recipients,
   user,
 } from './schema'
@@ -14,21 +14,21 @@ import { InsertOrder, orders } from './schema/order'
 /**
  * Reset database
  */
-await db.delete(recipients)
 await db.delete(orders)
-await db.delete(adresses)
+await db.delete(recipients)
+await db.delete(addresses)
 await db.delete(user)
 
 console.log(chalk.yellow('✔ Database reset'))
 
 /**
- * Create adresses
+ * Create addresses
  */
-function generateAdresses() {
-  const adresses: AdressInsert[] = []
+function generateAddresses() {
+  const addresses: AddressInsert[] = []
 
   for (let i = 0; i < 100; i++) {
-    adresses.push({
+    addresses.push({
       city: faker.location.city().toUpperCase(),
       state: faker.location.state().toUpperCase(),
       street: faker.location.street().toUpperCase(),
@@ -37,15 +37,15 @@ function generateAdresses() {
     })
   }
 
-  return adresses
+  return addresses
 }
-const adressesToInsert = generateAdresses()
-const adressesInserted = await db
-  .insert(adresses)
-  .values(adressesToInsert)
+const addressesToInsert = generateAddresses()
+const addressesInserted = await db
+  .insert(addresses)
+  .values(addressesToInsert)
   .returning()
 
-console.log(chalk.yellow('✔ Created adresses'))
+console.log(chalk.yellow('✔ Created addresses'))
 
 /**
  * Create recipients
@@ -58,7 +58,7 @@ function generateRecipients() {
       name: faker.person.fullName().toUpperCase(),
       cpf: faker.string.numeric('###########'),
       phone: faker.string.numeric('###########'),
-      adressId: faker.helpers.arrayElement(adressesInserted).id,
+      addressId: faker.helpers.arrayElement(addressesInserted).id,
     })
   }
 
@@ -83,12 +83,14 @@ const [deliveryMan1, deliveryMan2] = await db
       role: 'deliveryman',
       cpf: faker.string.numeric('###########'),
       password: hashSync('123456', 8),
+      addressId: faker.helpers.arrayElement(addressesInserted).id,
     },
     {
       name: faker.person.fullName().toUpperCase(),
       role: 'deliveryman',
       cpf: faker.string.numeric('###########'),
       password: hashSync('123456', 8),
+      addressId: faker.helpers.arrayElement(addressesInserted).id,
     },
     {
       name: 'SAMUEL REZENDE',

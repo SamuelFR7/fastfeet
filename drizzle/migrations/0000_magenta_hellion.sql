@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"role" "role" DEFAULT 'deliveryman' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp,
-	"adress_id" varchar(255),
+	"address_id" varchar(255),
 	CONSTRAINT "users_cpf_unique" UNIQUE("cpf")
 );
 --> statement-breakpoint
@@ -28,11 +28,12 @@ CREATE TABLE IF NOT EXISTS "orders" (
 	"status" "status" DEFAULT 'pending' NOT NULL,
 	"delivery_man_id" varchar(255),
 	"recipient_id" varchar(255) NOT NULL,
+	"delivered_image_key" varchar(255),
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "adresses" (
+CREATE TABLE IF NOT EXISTS "addresses" (
 	"id" varchar(255) PRIMARY KEY NOT NULL,
 	"street" varchar(255) NOT NULL,
 	"number" varchar(255) NOT NULL,
@@ -47,13 +48,13 @@ CREATE TABLE IF NOT EXISTS "recipients" (
 	"name" varchar(255) NOT NULL,
 	"cpf" varchar(11) NOT NULL,
 	"phone" varchar(11) NOT NULL,
-	"adress_id" varchar(255) NOT NULL,
+	"address_id" varchar(255) NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "users" ADD CONSTRAINT "users_adress_id_adresses_id_fk" FOREIGN KEY ("adress_id") REFERENCES "adresses"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "users" ADD CONSTRAINT "users_address_id_addresses_id_fk" FOREIGN KEY ("address_id") REFERENCES "addresses"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -71,7 +72,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "recipients" ADD CONSTRAINT "recipients_adress_id_adresses_id_fk" FOREIGN KEY ("adress_id") REFERENCES "adresses"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "recipients" ADD CONSTRAINT "recipients_address_id_addresses_id_fk" FOREIGN KEY ("address_id") REFERENCES "addresses"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

@@ -1,5 +1,5 @@
 {
-  "id": "92a9cf4b-c506-438e-a29b-da7ea605848b",
+  "id": "fef0b3dc-5b0a-4a62-879e-c785016dc8f3",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -52,8 +52,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "adress_id": {
-          "name": "adress_id",
+        "address_id": {
+          "name": "address_id",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": false
@@ -61,12 +61,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "users_adress_id_adresses_id_fk": {
-          "name": "users_adress_id_adresses_id_fk",
+        "users_address_id_addresses_id_fk": {
+          "name": "users_address_id_addresses_id_fk",
           "tableFrom": "users",
-          "tableTo": "adresses",
+          "tableTo": "addresses",
           "columnsFrom": [
-            "adress_id"
+            "address_id"
           ],
           "columnsTo": [
             "id"
@@ -121,6 +121,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "delivered_image_key": {
+          "name": "delivered_image_key",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
@@ -167,8 +173,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "adresses": {
-      "name": "adresses",
+    "addresses": {
+      "name": "addresses",
       "schema": "",
       "columns": {
         "id": {
@@ -247,8 +253,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "adress_id": {
-          "name": "adress_id",
+        "address_id": {
+          "name": "address_id",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
@@ -269,12 +275,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "recipients_adress_id_adresses_id_fk": {
-          "name": "recipients_adress_id_adresses_id_fk",
+        "recipients_address_id_addresses_id_fk": {
+          "name": "recipients_address_id_addresses_id_fk",
           "tableFrom": "recipients",
-          "tableTo": "adresses",
+          "tableTo": "addresses",
           "columnsFrom": [
-            "adress_id"
+            "address_id"
           ],
           "columnsTo": [
             "id"

@@ -1,6 +1,6 @@
 import { createId } from '@paralleldrive/cuid2'
 import { pgTable, varchar, timestamp, pgEnum } from 'drizzle-orm/pg-core'
-import { adresses } from './adresses'
+import { addresses } from './addresses'
 
 export const role = pgEnum('role', ['admin', 'deliveryman'])
 
@@ -14,5 +14,7 @@ export const user = pgTable('users', {
   role: role('role').default('deliveryman').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at'),
-  adressId: varchar('adress_id', { length: 255 }).references(() => adresses.id),
+  addressId: varchar('address_id', { length: 255 }).references(
+    () => addresses.id
+  ),
 })

@@ -1,27 +1,27 @@
 import { db } from '@/db/connection'
-import { adresses, recipients } from '@/db/schema'
+import { addresses, recipients } from '@/db/schema'
 import { authentication } from '@/http/authentication'
 import Elysia, { t } from 'elysia'
 
 export const createRecipient = new Elysia().use(authentication).post(
   '/',
   async ({ body }) => {
-    const newAdress = await db
-      .insert(adresses)
+    const newAddress = await db
+      .insert(addresses)
       .values({
-        city: body.adressCity.toUpperCase(),
-        complement: body.adressComplement?.toUpperCase(),
-        number: body.adressNumber,
-        state: body.adressState.toUpperCase(),
-        street: body.adressStreet.toUpperCase(),
-        zipCode: body.adressZipCode,
+        city: body.addressCity.toUpperCase(),
+        complement: body.addressComplement?.toUpperCase(),
+        number: body.addressNumber,
+        state: body.addressState.toUpperCase(),
+        street: body.addressStreet.toUpperCase(),
+        zipCode: body.addressZipCode,
       })
-      .returning({ id: adresses.id })
+      .returning({ id: addresses.id })
 
     await db.insert(recipients).values({
       name: body.name.toUpperCase(),
       cpf: body.cpf,
-      adressId: newAdress[0].id,
+      addressId: newAddress[0].id,
       phone: body.phone,
     })
 
@@ -35,12 +35,12 @@ export const createRecipient = new Elysia().use(authentication).post(
       name: t.String(),
       cpf: t.String(),
       phone: t.String(),
-      adressStreet: t.String(),
-      adressNumber: t.String(),
-      adressComplement: t.Optional(t.String()),
-      adressCity: t.String(),
-      adressState: t.String(),
-      adressZipCode: t.String(),
+      addressStreet: t.String(),
+      addressNumber: t.String(),
+      addressComplement: t.Optional(t.String()),
+      addressCity: t.String(),
+      addressState: t.String(),
+      addressZipCode: t.String(),
     }),
     beforeHandle: async ({ getIsAdmin, set }) => {
       const isAdmin = await getIsAdmin()

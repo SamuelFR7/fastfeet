@@ -1,7 +1,7 @@
 import { createId } from '@paralleldrive/cuid2'
 import { pgTable, varchar } from 'drizzle-orm/pg-core'
 
-export const adresses = pgTable('adresses', {
+export const addresses = pgTable('addresses', {
   id: varchar('id', { length: 255 })
     .primaryKey()
     .$defaultFn(() => createId()),
@@ -13,4 +13,4 @@ export const adresses = pgTable('adresses', {
   zipCode: varchar('zip_code', { length: 255 }).notNull(),
 })
 
-export type AdressInsert = typeof adresses.$inferInsert
+export type AddressInsert = typeof addresses.$inferInsert

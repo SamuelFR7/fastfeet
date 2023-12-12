@@ -1,4 +1,4 @@
 export * from './user'
 export * from './order'
-export * from './adresses'
+export * from './addresses'
 export * from './recipient'

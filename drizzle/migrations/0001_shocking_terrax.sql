@@ -1,1 +1,0 @@
-ALTER TABLE "orders" ADD COLUMN "delivered_image_key" varchar(255);
