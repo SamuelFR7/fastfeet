@@ -5,6 +5,7 @@ import { getUniqueDeliveryMan } from './get-unique-delivery-man'
 import { listDeliveryMan } from './list-delivery-men'
 import { listMyOrders } from './list-my-orders'
 import { updateDeliveryMan } from './update-delivery-man'
+import { getCloseOrdersAvailable } from './get-close-orders-available'
 
 export const deliveryManRouter = new Elysia({ prefix: '/deliveryman' })
   .use(createDeliveryMan)
@@ -13,3 +14,4 @@ export const deliveryManRouter = new Elysia({ prefix: '/deliveryman' })
   .use(listDeliveryMan)
   .use(listMyOrders)
   .use(updateDeliveryMan)
+  .use(getCloseOrdersAvailable)

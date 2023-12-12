@@ -1,5 +1,5 @@
 import { db } from '@/db/connection'
-import { Order, orders } from '@/db/schema'
+import { Order, addresses, orders, recipients } from '@/db/schema'
 import { authentication } from '@/http/authentication'
 import { asc, count, desc, eq } from 'drizzle-orm'
 import Elysia, { t } from 'elysia'
@@ -18,9 +18,26 @@ export const listMyOrders = new Elysia().use(authentication).get(
         : []
 
     const ordersQuery = await db
-      .select()
+      .select({
+        id: orders.id,
+        itemName: orders.itemName,
+        status: orders.status,
+        createdAt: orders.createdAt,
+        updatedAt: orders.updatedAt,
+        address: {
+          city: addresses.city,
+          state: addresses.state,
+          street: addresses.street,
+          complement: addresses.complement,
+          number: addresses.number,
+          zipCode: addresses.zipCode,
+        },
+        recipient: {
+          name: recipients.name,
+          phone: recipients.phone,
+        },
+      })
       .from(orders)
-      .where(eq(orders.deliveryManId, sub))
       .offset((page - 1) * limit)
       .limit(limit)
       .orderBy(
@@ -30,6 +47,9 @@ export const listMyOrders = new Elysia().use(authentication).get(
             : desc(orders[column])
           : asc(orders.id)
       )
+      .leftJoin(recipients, eq(orders.recipientId, recipients.id))
+      .leftJoin(addresses, eq(recipients.addressId, addresses.id))
+      .where(eq(orders.deliveryManId, sub))
 
     const totalCount = await db
       .select({ count: count() })
