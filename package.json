@@ -2,7 +2,8 @@
   "name": "fastfeet",
   "version": "1.0.50",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "bun run dist/server.js",
+    "build": "bun build src/http/server.ts --outdir ./dist --target bun",
     "dev": "bun run --watch src/http/server.ts",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate:pg",
