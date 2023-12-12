@@ -28,5 +28,8 @@ export const createOrder = new Elysia().use(authentication).post(
       itemName: t.String(),
       recipientId: t.String(),
     }),
+    detail: {
+      tags: ['Order'],
+    },
   }
 )

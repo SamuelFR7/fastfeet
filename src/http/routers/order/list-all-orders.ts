@@ -57,5 +57,8 @@ export const listAllOrders = new Elysia().use(authentication).get(
       limit: t.String(),
       sort: t.String(),
     }),
+    detail: {
+      tags: ['Order'],
+    },
   }
 )

@@ -4,9 +4,9 @@ import { authentication } from '@/http/authentication'
 import { eq } from 'drizzle-orm'
 import Elysia from 'elysia'
 
-export const getUniqueOrder = new Elysia()
-  .use(authentication)
-  .get('/:id', async ({ getCurrentUser, params: { id }, set }) => {
+export const getUniqueOrder = new Elysia().use(authentication).get(
+  '/:id',
+  async ({ getCurrentUser, params: { id }, set }) => {
     const { admin, sub } = await getCurrentUser()
 
     const orderQuery = await db.select().from(orders).where(eq(orders.id, id))
@@ -36,4 +36,10 @@ export const getUniqueOrder = new Elysia()
         'Content-Type': 'application/json',
       },
     })
-  })
+  },
+  {
+    detail: {
+      tags: ['Order'],
+    },
+  }
+)

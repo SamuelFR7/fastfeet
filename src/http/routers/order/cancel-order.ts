@@ -4,9 +4,9 @@ import { authentication } from '@/http/authentication'
 import { eq } from 'drizzle-orm'
 import Elysia from 'elysia'
 
-export const cancelOrder = new Elysia()
-  .use(authentication)
-  .patch('/cancel/:id', async ({ getIsAdmin, set, params: { id } }) => {
+export const cancelOrder = new Elysia().use(authentication).patch(
+  '/cancel/:id',
+  async ({ getIsAdmin, set, params: { id } }) => {
     await getIsAdmin()
 
     const orderExistsQuery = await db
@@ -48,4 +48,10 @@ export const cancelOrder = new Elysia()
         'Content-Type': 'application/json',
       },
     })
-  })
+  },
+  {
+    detail: {
+      tags: ['Order'],
+    },
+  }
+)

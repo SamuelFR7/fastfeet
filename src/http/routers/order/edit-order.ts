@@ -43,5 +43,8 @@ export const editOrder = new Elysia().use(authentication).patch(
     body: t.Object({
       itemName: t.String(),
     }),
+    detail: {
+      tags: ['Order'],
+    },
   }
 )
