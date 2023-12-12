@@ -4,9 +4,9 @@ import { authentication } from '@/http/authentication'
 import { and, eq } from 'drizzle-orm'
 import Elysia from 'elysia'
 
-export const getUniqueDeliveryMan = new Elysia()
-  .use(authentication)
-  .get('/:id', async ({ getIsAdmin, set, params: { id } }) => {
+export const getUniqueDeliveryMan = new Elysia().use(authentication).get(
+  '/:id',
+  async ({ getIsAdmin, set, params: { id } }) => {
     await getIsAdmin()
 
     const deliverymanQuery = await db
@@ -37,4 +37,10 @@ export const getUniqueDeliveryMan = new Elysia()
         'Content-Type': 'application/json',
       },
     })
-  })
+  },
+  {
+    detail: {
+      tags: ['Delivery Man'],
+    },
+  }
+)

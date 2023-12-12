@@ -53,5 +53,8 @@ export const updateDeliveryMan = new Elysia().use(authentication).patch(
       name: t.String(),
       cpf: t.String(),
     }),
+    detail: {
+      tags: ['Delivery Man'],
+    },
   }
 )

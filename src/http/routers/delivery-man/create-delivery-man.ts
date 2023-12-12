@@ -50,5 +50,8 @@ export const createDeliveryMan = new Elysia().use(authentication).post(
     headers: t.Object({
       authorization: t.String(),
     }),
+    detail: {
+      tags: ['Delivery Man'],
+    },
   }
 )

@@ -4,9 +4,9 @@ import { authentication } from '@/http/authentication'
 import { and, eq } from 'drizzle-orm'
 import Elysia from 'elysia'
 
-export const deleteDeliveryMan = new Elysia()
-  .use(authentication)
-  .delete('/:id', async ({ getIsAdmin, set, params: { id } }) => {
+export const deleteDeliveryMan = new Elysia().use(authentication).delete(
+  '/:id',
+  async ({ getIsAdmin, set, params: { id } }) => {
     await getIsAdmin()
 
     const deliverymanQuery = await db
@@ -40,4 +40,10 @@ export const deleteDeliveryMan = new Elysia()
         message: 'Deliveryman deleted successfully',
       },
     }
-  })
+  },
+  {
+    detail: {
+      tags: ['Delivery Man'],
+    },
+  }
+)

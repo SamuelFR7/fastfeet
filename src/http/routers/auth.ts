@@ -50,7 +50,7 @@ authRouter.post(
         },
       }),
       {
-        status: 201,
+        status: 200,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -62,5 +62,8 @@ authRouter.post(
       cpf: t.String(),
       password: t.String(),
     }),
+    detail: {
+      tags: ['Auth'],
+    },
   }
 )
