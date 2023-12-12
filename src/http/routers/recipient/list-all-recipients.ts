@@ -72,5 +72,8 @@ export const listAllRecipients = new Elysia().use(authentication).get(
       sort: t.Optional(t.String()),
       search: t.Optional(t.String()),
     }),
+    detail: {
+      tags: ['Recipient'],
+    },
   }
 )

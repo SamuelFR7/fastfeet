@@ -50,5 +50,8 @@ export const createRecipient = new Elysia().use(authentication).post(
         return 'Unauthorized'
       }
     },
+    detail: {
+      tags: ['Recipient'],
+    },
   }
 )

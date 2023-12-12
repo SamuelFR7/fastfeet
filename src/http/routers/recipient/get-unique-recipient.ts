@@ -35,5 +35,8 @@ export const getUniqueRecipient = new Elysia().use(authentication).get(
         return 'Unauthorized'
       }
     },
+    detail: {
+      tags: ['Recipient'],
+    },
   }
 )

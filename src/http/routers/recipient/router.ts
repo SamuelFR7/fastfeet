@@ -5,9 +5,13 @@ import { listAllRecipients } from './list-all-recipients'
 import { updateRecipient } from './update-recipient'
 import { deleteRecipient } from './delete-recipient'
 
-export const recipientRouter = new Elysia({ prefix: '/recipient' })
-  .use(createRecipient)
-  .use(getUniqueRecipient)
-  .use(listAllRecipients)
-  .use(updateRecipient)
-  .use(deleteRecipient)
+export const recipientRouter = new Elysia()
+
+recipientRouter.group('/recipient', (recipientRouter) =>
+  recipientRouter
+    .use(createRecipient)
+    .use(getUniqueRecipient)
+    .use(listAllRecipients)
+    .use(updateRecipient)
+    .use(deleteRecipient)
+)

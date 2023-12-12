@@ -52,5 +52,8 @@ export const updateRecipient = new Elysia().use(authentication).patch(
       cpf: t.Optional(t.String()),
       phone: t.Optional(t.String()),
     }),
+    detail: {
+      tags: ['Recipient'],
+    },
   }
 )

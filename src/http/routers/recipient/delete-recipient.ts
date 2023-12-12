@@ -42,5 +42,8 @@ export const deleteRecipient = new Elysia().use(authentication).delete(
         return 'Unauthorized'
       }
     },
+    detail: {
+      tags: ['Recipient'],
+    },
   }
 )
