@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia'
 import { swagger } from '@elysiajs/swagger'
 import { bearer } from '@elysiajs/bearer'
-import { authRouter } from './routers/auth'
+import { authRouter } from './routers/auth/router'
 import { env } from '@/env'
 import { deliveryManRouter } from './routers/delivery-man/router'
 import { ordersRouter } from './routers/order/router'
