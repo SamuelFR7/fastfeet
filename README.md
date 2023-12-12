@@ -15,7 +15,7 @@
 <h3 align="center">FastFeet</h3>
 
   <p align="center">
-    📦 This is an application for controlling orders for a transport company.
+    📦 This is an REST Api for a shipping company's order control application
     <br />
     <br />
     <br />
