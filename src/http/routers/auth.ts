@@ -2,7 +2,7 @@ import Elysia, { t } from 'elysia'
 import { user } from '@/db/schema/user'
 import { db } from '@/db/connection'
 import { eq } from 'drizzle-orm'
-import { compare } from 'bcryptjs'
+import { compare, hash } from 'bcryptjs'
 import { authentication } from '../authentication'
 
 export const authRouter = new Elysia().use(authentication)
@@ -65,5 +65,61 @@ authRouter.post(
     detail: {
       tags: ['Auth'],
     },
+  }
+)
+
+authRouter.put(
+  '/auth/:id/change-password',
+  async ({ body, params: { id }, set }) => {
+    const userExistsQuery = await db.select().from(user).where(eq(user.id, id))
+
+    const userExists = userExistsQuery[0]
+
+    if (!userExists) {
+      set.status = 404
+      return {
+        body: {
+          message: 'User not found',
+        },
+      }
+    }
+
+    const { newPassword } = body
+
+    const hashedPassword = await hash(newPassword, 8)
+
+    await db
+      .update(user)
+      .set({
+        password: hashedPassword,
+      })
+      .where(eq(user.id, id))
+
+    return new Response(
+      JSON.stringify({
+        message: 'Password changed successfully',
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+  },
+  {
+    beforeHandle: async ({ set, getIsAdmin }) => {
+      const isAdmin = await getIsAdmin()
+
+      if (!isAdmin) {
+        set.status = 401
+        return {
+          message: 'Unauthorized',
+        }
+      }
+    },
+    body: t.Object({
+      newPassword: t.String(),
+    }),
   }
 )
