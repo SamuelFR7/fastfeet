@@ -5,11 +5,16 @@ import { authRouter } from './routers/auth'
 import { env } from '@/env'
 import { deliveryManRouter } from './routers/delivery-man/router'
 import { ordersRouter } from './routers/order/router'
+import { recipientRouter } from './routers/recipient/router'
 
 export const app = new Elysia().use(bearer()).use(swagger())
 
 app.group('/api/v1', (app) =>
-  app.use(authRouter).use(deliveryManRouter).use(ordersRouter)
+  app
+    .use(authRouter)
+    .use(deliveryManRouter)
+    .use(ordersRouter)
+    .use(recipientRouter)
 )
 
 app.listen(env.PORT)

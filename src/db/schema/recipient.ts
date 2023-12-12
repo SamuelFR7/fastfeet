@@ -17,3 +17,4 @@ export const recipients = pgTable('recipients', {
 })
 
 export type RecipientInsert = typeof recipients.$inferInsert
+export type Recipient = typeof recipients.$inferSelect
