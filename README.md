@@ -15,7 +15,7 @@
 <h3 align="center">FastFeet</h3>
 
   <p align="center">
-    This is an application for controlling orders for a transport company.
+    📦 This is an application for controlling orders for a transport company.
     <br />
     <br />
     <br />
