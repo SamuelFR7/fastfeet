@@ -4,9 +4,9 @@ import { authentication } from '@/http/authentication'
 import { and, eq } from 'drizzle-orm'
 import Elysia from 'elysia'
 
-export const getCloseOrdersAvailable = new Elysia()
-  .use(authentication)
-  .get('/orders/close', async ({ getCurrentUser, set }) => {
+export const getCloseOrdersAvailable = new Elysia().use(authentication).get(
+  '/orders/close',
+  async ({ getCurrentUser, set }) => {
     const { sub, admin } = await getCurrentUser()
 
     if (admin) {
@@ -77,4 +77,10 @@ export const getCloseOrdersAvailable = new Elysia()
         },
       }
     )
-  })
+  },
+  {
+    detail: {
+      tags: ['Delivery Man'],
+    },
+  }
+)
