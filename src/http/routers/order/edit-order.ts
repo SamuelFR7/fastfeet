@@ -19,9 +19,7 @@ export const editOrder = new Elysia().use(authentication).patch(
     if (!orderExists) {
       set.status = 404
       return {
-        body: {
-          message: 'Order not found',
-        },
+        message: 'Order not found',
       }
     }
 

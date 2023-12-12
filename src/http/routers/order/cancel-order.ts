@@ -1,6 +1,10 @@
 import { db } from '@/db/connection'
+import { recipients } from '@/db/schema'
 import { orders } from '@/db/schema/order'
+import { env } from '@/env'
 import { authentication } from '@/http/authentication'
+import { resend } from '@/mail/client'
+import { NotificateRecipientTemplate } from '@/mail/templates/notificate-recipient'
 import { eq } from 'drizzle-orm'
 import Elysia from 'elysia'
 
@@ -10,8 +14,14 @@ export const cancelOrder = new Elysia().use(authentication).patch(
     await getIsAdmin()
 
     const orderExistsQuery = await db
-      .select()
+      .select({
+        email: recipients.email,
+        name: recipients.name,
+        status: orders.status,
+        deliveryManId: orders.deliveryManId,
+      })
       .from(orders)
+      .leftJoin(recipients, eq(orders.recipientId, recipients.id))
       .where(eq(orders.id, id))
 
     const orderExists = orderExistsQuery[0]
@@ -34,7 +44,7 @@ export const cancelOrder = new Elysia().use(authentication).patch(
       }
     }
 
-    const order = await db
+    const updatedOrder = await db
       .update(orders)
       .set({
         status: 'cancelled',
@@ -42,12 +52,29 @@ export const cancelOrder = new Elysia().use(authentication).patch(
       .where(eq(orders.id, id))
       .returning()
 
-    return new Response(JSON.stringify(order), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    if (orderExists.email && orderExists.name) {
+      await resend.emails.send({
+        from: `FastFeet <${env.MAIL_FROM}>`,
+        to: orderExists.email,
+        subject: `Your order has been cancelled`,
+        react: NotificateRecipientTemplate({
+          name: orderExists.name,
+          order: updatedOrder[0],
+        }),
+      })
+    }
+
+    return new Response(
+      JSON.stringify({
+        message: 'Order cancelled',
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
   },
   {
     detail: {

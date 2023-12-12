@@ -1,5 +1,5 @@
 {
-  "id": "fef0b3dc-5b0a-4a62-879e-c785016dc8f3",
+  "id": "a27aacf2-dc1c-449a-929a-d45e0b5312b7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -244,6 +244,12 @@
         "cpf": {
           "name": "cpf",
           "type": "varchar(11)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
         },

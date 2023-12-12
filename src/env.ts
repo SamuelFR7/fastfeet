@@ -7,6 +7,8 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production']).default('development'),
   UPLOADTHING_SECRET: z.string(),
   UPLOADTHING_APP_ID: z.string(),
+  RESEND_API_KEY: z.string(),
+  MAIL_FROM: z.string(),
 })
 
 export const env = envSchema.parse(process.env)

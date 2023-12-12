@@ -59,6 +59,7 @@ function generateRecipients() {
       cpf: faker.string.numeric('###########'),
       phone: faker.string.numeric('###########'),
       addressId: faker.helpers.arrayElement(addressesInserted).id,
+      email: faker.internet.exampleEmail().toLowerCase(),
     })
   }
 

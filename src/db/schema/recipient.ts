@@ -8,6 +8,7 @@ export const recipients = pgTable('recipients', {
     .primaryKey(),
   name: varchar('name', { length: 255 }).notNull(),
   cpf: varchar('cpf', { length: 11 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull(),
   phone: varchar('phone', { length: 11 }).notNull(),
   addressId: varchar('address_id', { length: 255 })
     .references(() => addresses.id)

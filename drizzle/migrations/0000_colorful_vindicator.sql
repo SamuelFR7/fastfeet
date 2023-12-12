@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS "recipients" (
 	"id" varchar(255) PRIMARY KEY NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"cpf" varchar(11) NOT NULL,
+	"email" varchar(255) NOT NULL,
 	"phone" varchar(11) NOT NULL,
 	"address_id" varchar(255) NOT NULL,
 	"created_at" timestamp DEFAULT now(),

@@ -1,6 +1,9 @@
 import { db } from '@/db/connection'
-import { orders } from '@/db/schema'
+import { orders, recipients } from '@/db/schema'
+import { env } from '@/env'
 import { authentication } from '@/http/authentication'
+import { resend } from '@/mail/client'
+import { NotificateRecipientTemplate } from '@/mail/templates/notificate-recipient'
 import { eq } from 'drizzle-orm'
 import Elysia, { t } from 'elysia'
 import { UTApi } from 'uploadthing/server'
@@ -20,8 +23,14 @@ export const markAsDelivered = new Elysia().use(authentication).put(
     }
 
     const orderExistsQuery = await db
-      .select()
+      .select({
+        email: recipients.email,
+        name: recipients.name,
+        status: orders.status,
+        deliveryManId: orders.deliveryManId,
+      })
       .from(orders)
+      .leftJoin(recipients, eq(orders.recipientId, recipients.id))
       .where(eq(orders.id, id))
 
     const orderExists = orderExistsQuery[0]
@@ -56,10 +65,23 @@ export const markAsDelivered = new Elysia().use(authentication).put(
       }
     }
 
-    await db
+    const updatedOrder = await db
       .update(orders)
       .set({ status: 'delivered', deliveredImageKey: uploaded.data.key })
       .where(eq(orders.id, id))
+      .returning()
+
+    if (orderExists.email && orderExists.name) {
+      await resend.emails.send({
+        from: `FastFeet <${env.MAIL_FROM}>`,
+        to: orderExists.email,
+        subject: `Your order has been delivered`,
+        react: NotificateRecipientTemplate({
+          name: orderExists.name,
+          order: updatedOrder[0],
+        }),
+      })
+    }
 
     return new Response(
       JSON.stringify({
