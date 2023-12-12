@@ -23,6 +23,7 @@ export const createRecipient = new Elysia().use(authentication).post(
       cpf: body.cpf,
       addressId: newAddress[0].id,
       phone: body.phone,
+      email: body.email,
     })
 
     return new Response(JSON.stringify({ message: 'Recipient created' }), {
@@ -41,6 +42,7 @@ export const createRecipient = new Elysia().use(authentication).post(
       addressCity: t.String(),
       addressState: t.String(),
       addressZipCode: t.String(),
+      email: t.String(),
     }),
     beforeHandle: async ({ getIsAdmin, set }) => {
       const isAdmin = await getIsAdmin()
