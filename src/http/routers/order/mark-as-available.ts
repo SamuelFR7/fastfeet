@@ -34,9 +34,7 @@ export const markAsAvailable = new Elysia().use(authentication).put(
     if (orderExists.status !== 'pending') {
       set.status = 400
       return {
-        body: {
-          message: 'Order cannot be mark as available',
-        },
+        message: 'Order cannot be mark as available',
       }
     }
 
